@@ -385,12 +385,12 @@ if options.launcher != "":
     elif options.launcher == "local":
         job_submit_call = os.path.join(this_directory, "procman.py")
         job_template = "slurm.sim"
-elif any([os.path.isfile(os.path.join(p, "sbatch")) for p in os.getenv("PATH").split(os.pathsep)]):
-    job_submit_call = "sbatch"
-    job_template = "slurm.sim"
-elif any([os.path.isfile(os.path.join(p, "qsub")) for p in os.getenv("PATH").split(os.pathsep)]):
-    job_submit_call = "qsub"
-    job_template = "torque.sim"
+# elif any([os.path.isfile(os.path.join(p, "sbatch")) for p in os.getenv("PATH").split(os.pathsep)]):
+#     job_submit_call = "sbatch"
+#     job_template = "slurm.sim"
+# elif any([os.path.isfile(os.path.join(p, "qsub")) for p in os.getenv("PATH").split(os.pathsep)]):
+#     job_submit_call = "qsub"
+#     job_template = "torque.sim"
 else:
     print("Cannot find a supported job management system. Spawning jobs locally.")
     job_submit_call = os.path.join(this_directory, "procman.py")
