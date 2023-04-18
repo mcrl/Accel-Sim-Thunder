@@ -385,12 +385,12 @@ if options.launcher != "":
     elif options.launcher == "local":
         job_submit_call = os.path.join(this_directory, "procman.py")
         job_template = "slurm.sim"
-# elif any([os.path.isfile(os.path.join(p, "sbatch")) for p in os.getenv("PATH").split(os.pathsep)]):
-#     job_submit_call = "sbatch"
-#     job_template = "slurm.sim"
-# elif any([os.path.isfile(os.path.join(p, "qsub")) for p in os.getenv("PATH").split(os.pathsep)]):
-#     job_submit_call = "qsub"
-#     job_template = "torque.sim"
+elif any([os.path.isfile(os.path.join(p, "sbatch")) for p in os.getenv("PATH").split(os.pathsep)]):
+    job_submit_call = "sbatch"
+    job_template = "slurm.sim"
+elif any([os.path.isfile(os.path.join(p, "qsub")) for p in os.getenv("PATH").split(os.pathsep)]):
+    job_submit_call = "qsub"
+    job_template = "torque.sim"
 else:
     print("Cannot find a supported job management system. Spawning jobs locally.")
     job_submit_call = os.path.join(this_directory, "procman.py")
@@ -411,9 +411,13 @@ print("Running Simulations with GPGPU-Sim built from \n{0}\n ".format(version_st
       "\nUsing configs: " + options.configs_list +
       "\nBenchmark: " + options.benchmark_list)
 
-for config in configurations:
+# SnuProf
+print(f"\n\n[SnuProf] config ================\n")
+for i, config in enumerate(configurations):
+    print("%d.\n" % i)
     config.my_print()
     config.run(version_string, benchmarks, options.run_directory, cuda_version, options.simulator_dir)
+print(f"=================================\n")
 
 if "procman" in job_submit_call and not options.no_launch:
     if options.cores == None:
